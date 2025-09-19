@@ -7,31 +7,26 @@ import styles from "../styles/layout.module.css";
 
 export const Nav = () => {
   const pathname = usePathname();
+  const navItems = [
+    { href: "/", label: "Home" },
+    { href: "/verify", label: "Verify" },
+    { href: "/quotes", label: "Quotes" },
+    { href: "/timer", label: "Timer" },
+  ]
 
   return (
     <nav className={styles.nav}>
-      <Link
-        className={`${styles.link} ${pathname === "/" ? styles.active : ""}`}
-        href="/"
-      >
-        Home
-      </Link>
-      <Link
-        className={`${styles.link} ${
-          pathname === "/verify" ? styles.active : ""
-        }`}
-        href="/verify"
-      >
-        Verify
-      </Link>
-      <Link
-        className={`${styles.link} ${
-          pathname === "/quotes" ? styles.active : ""
-        }`}
-        href="/quotes"
-      >
-        Quotes
-      </Link>
+      {navItems.map((item) => (
+        <Link
+          key={item.href}
+          className={`${styles.link} ${pathname === item.href ? styles.active : ""}`}
+          href={item.href}
+        >
+          {item.label}
+        </Link>
+      ))}
     </nav>
   );
 };
+
+

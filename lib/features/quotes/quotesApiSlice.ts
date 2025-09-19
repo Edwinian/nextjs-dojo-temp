@@ -1,34 +1,46 @@
 // Need to use the React-specific entry point to import `createApi`
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-interface Quote {
+export interface Quote {
   id: number;
   quote: string;
   author: string;
 }
 
-interface QuotesApiResponse {
+export interface QuotesApiResponse {
   quotes: Quote[];
   total: number;
   skip: number;
   limit: number;
 }
 
+type QuotesApiParams = number
+
+export interface AddQuoteArgs {
+  quote: string;
+  author: string;
+}
+
 // Define a service using a base URL and expected endpoints
 export const quotesApiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "https://dummyjson.com/quotes" }),
   reducerPath: "quotesApi",
-  // Tag types are used for caching and invalidation.
   tagTypes: ["Quotes"],
   endpoints: (build) => ({
-    // Supply generics for the return type (in this case `QuotesApiResponse`)
-    // and the expected query argument. If there is no argument, use `void`
-    // for the argument type instead.
-    getQuotes: build.query<QuotesApiResponse, number>({
+    getQuotes: build.query<QuotesApiResponse, QuotesApiParams>({
       query: (limit = 10) => `?limit=${limit}`,
-      // `providesTags` determines which 'tag' is attached to the
-      // cached data returned by the query.
-      providesTags: (result, error, id) => [{ type: "Quotes", id }],
+      providesTags: (result, error, id) => [{ type: "Quotes", id }, { type: "Quotes", id: "LIST" }],
+    }),
+    addQuote: build.mutation<Quote, AddQuoteArgs>({
+      query: ({ quote, author }) => ({
+        url: '', // Adjust to the correct endpoint, e.g., '/add'
+        method: 'POST',
+        body: { quote, author },
+      }),
+      invalidatesTags: (result, error, args) => [
+        { type: "Quotes", id: "LIST" }, // Invalidate all getQuotes queries using LIST
+        // Optionally, invalidate specific limit, e.g., { type: "Quotes", id: 10 }
+      ],
     }),
   }),
 });

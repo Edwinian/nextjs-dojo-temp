@@ -1,60 +1,70 @@
-"use client";
-import { useGetQuotesQuery } from "@/lib/features/quotes/quotesApiSlice";
-import { useState } from "react";
-import styles from "./Quotes.module.css";
+'use client';
+
+import { useRouter, useSearchParams } from 'next/navigation';
+import styles from './Quotes.module.css';
+import { QuotesApiResponse } from '@lib/features/quotes/quotesApiSlice';
 
 const options = [5, 10, 20, 30];
 
-export const Quotes = () => {
-  const [numberOfQuotes, setNumberOfQuotes] = useState(10);
-  // Using a query hook automatically fetches data and returns query values
-  const { data, isError, isLoading, isSuccess } =
-    useGetQuotesQuery(numberOfQuotes);
+interface QuotesProps {
+  data: QuotesApiResponse | null;
+  error: string | null;
+  limit: number;
+}
 
-  if (isError) {
-    return (
-      <div>
-        <h1>There was an error!!!</h1>
-      </div>
-    );
-  }
+export function Quotes({ data, error, limit }: QuotesProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  if (isLoading) {
-    return (
-      <div>
-        <h1>Loading...</h1>
-      </div>
-    );
-  }
+  const handleLimitChange = (newLimit: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    const existingLimit = params.get('limit')
 
-  if (isSuccess) {
+    if (!existingLimit || existingLimit !== newLimit) {
+      params.set('limit', newLimit);
+      router.push(`/quotes?${params.toString()}`);
+    }
+  };
+
+  if (error) {
     return (
       <div className={styles.container}>
-        <h3>Select the Quantity of Quotes to Fetch:</h3>
-        <select
-          className={styles.select}
-          value={numberOfQuotes}
-          onChange={(e) => {
-            setNumberOfQuotes(Number(e.target.value));
-          }}
-        >
-          {options.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-        {data.quotes.map(({ author, quote, id }) => (
-          <blockquote key={id}>
-            &ldquo;{quote}&rdquo;
-            <footer>
-              <cite>{author}</cite>
-            </footer>
-          </blockquote>
-        ))}
+        <h1 className={styles.title}>Error</h1>
+        <p className={styles.error}>{error}</p>
       </div>
     );
   }
 
-  return null;
-};
+  if (!data) {
+    return (
+      <div className={styles.container}>
+        <h1 className={styles.title}>Loading...</h1>
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.container}>
+      <h3 className={styles.title}>Select the Quantity of Quotes to Fetch:</h3>
+      <select
+        className={styles.select}
+        value={limit}
+        onChange={(e) => handleLimitChange(e.target.value)}
+      >
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+      {data.quotes.map(({ author, quote, id }) => (
+        <blockquote key={id} className={styles.blockquote}>
+          &ldquo;{quote}&rdquo;
+          <footer className={styles.footer}>
+            <cite>{author}</cite>
+          </footer>
+        </blockquote>
+      ))}
+    </div>
+  );
+}

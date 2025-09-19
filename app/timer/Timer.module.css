@@ -1,0 +1,104 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    min-height: 100vh;
+}
+
+.title {
+    font-size: 1.875rem;
+    /* 30px, like text-3xl */
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.count {
+    font-size: 1.5rem;
+    /* 24px */
+    margin-bottom: 1.5rem;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 0.5rem;
+    /* Space between buttons */
+}
+
+.button {
+    padding: 0.5rem 1rem;
+    /* px-4 py-2 */
+    border-radius: 0.5rem;
+    /* rounded-lg */
+    font-weight: 500;
+    /* font-medium */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    width: 100%;
+    /* Full-width on mobile */
+}
+
+.startButton {
+    background-color: #10b981;
+    /* Green, like bg-green-500 */
+}
+
+.startButton:hover:not(:disabled) {
+    background-color: #059669;
+    /* Darker green, like hover:bg-green-600 */
+}
+
+.startButton:disabled {
+    background-color: #6ee7b7;
+    /* Lighter green for disabled */
+    cursor: not-allowed;
+}
+
+.stopButton {
+    background-color: #ef4444;
+    /* Red, like bg-red-500 */
+}
+
+.stopButton:hover:not(:disabled) {
+    background-color: #dc2626;
+    /* Darker red, like hover:bg-red-600 */
+}
+
+.stopButton:disabled {
+    background-color: #f87171;
+    /* Lighter red for disabled */
+    cursor: not-allowed;
+}
+
+.resetButton {
+    background-color: #3b82f6;
+    /* Blue, like bg-blue-500 */
+}
+
+.resetButton:hover {
+    background-color: #2563eb;
+    /* Darker blue, like hover:bg-blue-600 */
+}
+
+/* Responsive styles for sm: (≥640px) */
+@media (min-width: 640px) {
+    .title {
+        font-size: 2.25rem;
+        /* 36px, like sm:text-4xl */
+    }
+
+    .count {
+        font-size: 1.875rem;
+        /* 30px */
+    }
+
+    .button {
+        padding: 0.75rem 1.5rem;
+        /* sm:px-6 sm:py-3 */
+        font-size: 1.125rem;
+        /* sm:text-lg */
+        width: auto;
+        /* sm:w-auto */
+    }
+}

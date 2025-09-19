@@ -61,29 +61,20 @@ export const counterSlice = createAppSlice({
       },
     ),
   }),
-  // You can define your selectors here. These selectors receive the slice
-  // state as their first argument.
-  selectors: {
-    selectCount: (counter) => counter.value,
-    selectStatus: (counter) => counter.status,
-  },
 });
 
 // Action creators are generated for each case reducer function.
 export const { decrement, increment, incrementByAmount, incrementAsync } =
   counterSlice.actions;
 
-// Selectors returned by `slice.selectors` take the root state as their first argument.
-export const { selectCount, selectStatus } = counterSlice.selectors;
-
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.
 export const incrementIfOdd =
   (amount: number): AppThunk =>
-  (dispatch, getState) => {
-    const currentValue = selectCount(getState());
+    (dispatch, getState) => {
+      const currentValue = getState().counter.value;
 
-    if (currentValue % 2 === 1 || currentValue % 2 === -1) {
-      dispatch(incrementByAmount(amount));
-    }
-  };
+      if (currentValue % 2 === 1 || currentValue % 2 === -1) {
+        dispatch(incrementByAmount(amount));
+      }
+    };

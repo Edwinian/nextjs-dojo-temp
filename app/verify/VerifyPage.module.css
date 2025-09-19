@@ -1,0 +1,76 @@
+.title {
+    font-size: 1.875rem;
+    /* 30px, equivalent to Tailwind's text-3xl */
+    font-weight: 700;
+    /* font-bold */
+    margin-bottom: 1rem;
+    /* mb-4 */
+}
+
+.description {
+    font-size: 1rem;
+    /* text-base */
+    margin-bottom: 1.5rem;
+    /* mb-6 */
+    max-width: 32rem;
+    /* max-w-2xl (32rem = 512px) */
+}
+
+.button {
+    background-color: #3b82f6;
+    /* bg-blue-500 */
+    color: #ffffff;
+    /* text-white */
+    padding: 0.5rem 1rem;
+    /* px-4 py-2 */
+    border-radius: 0.5rem;
+    /* rounded-lg */
+    font-weight: 500;
+    /* font-medium */
+    width: 100%;
+    /* w-full */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    /* transition-colors duration-200 */
+}
+
+.button:hover {
+    background-color: #2563eb;
+    /* hover:bg-blue-600 */
+}
+
+/* Responsive styles for sm: (≥640px) */
+@media (min-width: 640px) {
+    .title {
+        font-size: 2.25rem;
+        /* sm:text-4xl */
+    }
+
+    .description {
+        font-size: 1.125rem;
+        /* sm:text-lg */
+    }
+
+    .button {
+        padding: 0.75rem 1.5rem;
+        /* sm:px-6 sm:py-3 */
+        font-size: 1.125rem;
+        /* sm:text-lg */
+        width: auto;
+        /* sm:w-auto */
+    }
+}
+
+/* Responsive styles for md: (≥768px) */
+@media (min-width: 768px) {
+    .button {
+        background-color: #ef4444;
+        /* md:bg-red-500 */
+    }
+
+    .button:hover {
+        background-color: #dc2626;
+        /* hover:bg-red-600 (implicit, added for consistency) */
+    }
+}
